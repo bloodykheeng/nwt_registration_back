@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string("invoice_id");
             $table->string("invoice_tin");
             $table->unsignedBigInteger("invoice_address_id")->index();
+            $table->unsignedBigInteger("service_state_id")->index();
+            $table->foreign("service_state_id")->references("id")->on("service_states")->onDelete("cascade");
             $table->foreign("invoice_address_id")->references("id")->on("invoice_addresses")->onDelete("cascade");
             $table->timestamps();
         });

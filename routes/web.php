@@ -1,5 +1,7 @@
 <?php
 
+use App\Mail\InvoiceMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +19,7 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-require __DIR__.'/auth.php';
+Route::get("/testemail", function () {
+    Mail::to("test@gmail.com")->send(new InvoiceMail);
+});
+require __DIR__ . '/auth.php';

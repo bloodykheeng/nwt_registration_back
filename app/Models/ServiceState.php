@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceState extends Model
 {
     use HasFactory;
-    protected $fillable = ["start_date", "end_date", "tax", "quantity", "price	", "currency", "description", "client_id", "registras_id"];
+    protected $fillable = ["service_type_id", "start_date", "end_date", "tax", "quantity", "price", "currency", "description", "client_id", "registras_id"];
 }
