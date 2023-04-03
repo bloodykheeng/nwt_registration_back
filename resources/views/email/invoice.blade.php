@@ -31,6 +31,7 @@ tr:nth-child(even) {
   display: flex;
   justify-content: space-between;
   line-height: normal;
+  flex-wrap: wrap
 }
 p {
   font-size: 1rem;
@@ -41,13 +42,9 @@ p {
   margin-bottom: 3rem;
 }
 
-.printbutton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+.description{
+    line-height:1.5;
 }
-
 @media print {
   th {
     border: 1px solid #858383;
@@ -65,8 +62,12 @@ p {
     <title>Document</title>
 </head>
 <body>
-     <div className="invoiceContainer" >
-        <div className="logoinvoice">
+
+
+       <div class="invoiceContainer">
+        {{-- <h1>{{$data[0]["subject"]}}</h1>
+            <h2>{{$data[0]["body"]}}</h2> --}}
+        <div class="logoinvoice">
           <div>
             <img src="/NewWavelogo.jpg" alt="new wave logo" />
           </div>
@@ -74,27 +75,27 @@ p {
             <div>
               <h1>Invoice</h1>
             </div>
-            <p>TIN # 1000292703</p>
-            <p>INVOICE #090105</p>
-            <p>DATE: 09TH JANUARY 2023</p>
+            <p>TIN # {{$data[0]["invoice_tin"]}}</p>
+            <p>INVOICE {{$data[0]["invoice_id"]}}</p>
+            {{-- <p>DATE: {{$data[0]["moment().format("lll")"]}}</p> --}}
+            <p>DATE: {{$data[0]["service_states_end_date"]}}</p>
+
           </div>
         </div>
         <div>
           <div>
-            <p>New Wave Technologies Ltd.</p>
-            <p>Plot 128, Old Kira Road</p>
-            <p>P. O. Box 24159</p>
-            <p>Kampala, Uganda</p>
-            <p>+256 41 4389 220</p>
-            <p>info@nwt.ug</p>
+            <p>{{$data[0]["invoice_company_name"]}}</p>
+            <p>{{$data[0]["invoice_address"]}}</p>
+            <p>{{$data[0]["invoice_pobox"]}}</p>
+            <p>{{$data[0]["invoice_phonenumber"]}}</p>
+            <p>{{$data[0]["invoice_email"]}}</p>
           </div>
-          <div className="senderadd">
+          <div class="senderadd">
             <h3>INVOICE:</h3>
-            <p>SAS PROJECTS</p>
-            <p>Shoal House Plot 76 Kampala Road</p>
-            <p>P.O. Box 3876 Kampala, Uganda</p>
-            <p>Tel: +256 414345325</p>
-            <p>Email: sasclinic@sasprojects.co.ug</p>
+            <p>{{$data[0]["client_name"]}}</p>
+            <p>{{$data[0]["client_address"]}}</p>
+            <p>{{$data[0]["client_pobox"]}}</p>
+            <p>{{$data[0]["client_email"]}}</p>
           </div>
         </div>
         <div>
@@ -106,53 +107,52 @@ p {
               <th>TOTAL (UGX)</th>
             </tr>
             <tr>
-              <td>1</td>
+              <td>{{$data[0]["service_states_quantity"]}}</td>
+              <td>{{$data[0]["service_states_description"]}}</td>
+              <td>{{$data[0]["service_states_price"]}}</td>
               <td>
-                Domain renewal and Hosting for www.sasclinic.co.ug for a period
-                of one year.
+               {{ (int)$data[0]["service_states_quantity"] *
+                  (int)$data[0]["service_states_price"] }}
               </td>
-              <td>500,000</td>
-              <td>500,000</td>
             </tr>
             <tr>
               <td rowspan="3" colspan="2">
-                PAYMENT:: UGANDA SHILLINGS FIVE HUNDRED NINETY THOUSAND ONLY
+                PAYMENT
               </td>
               <td>SUBTOTAL</td>
-              <td>500,000</td>
+              <td>
+
+                {{ (int)$data[0]["service_states_quantity"] *
+                  (int)$data[0]["service_states_price"] }}
+              </td>
             </tr>
             <tr>
-              <td>TAX (18% VAT)</td>
-              <td>90,000</td>
+              <td>TAX ({{$data[0]["service_states_tax"]}}% VAT)</td>
+              <td>
+               {{((int)$data[0]["service_states_tax"] / 100) *
+                   (int)$data[0]["service_states_price"] }}
+              </td>
             </tr>
             <tr>
               <td>TOTAL DUE</td>
-              <td>590,000</td>
+              <td>
+                {{(int)$data[0]["service_states_quantity"] *
+                  (int)$data[0]["service_states_price"] +
+                  ((int)$data[0]["service_states_tax"] / 100) *
+                    (int)$data[0]["service_states_price"]}}
+              </td>
             </tr>
             <tr>
               <td colspan="4">
                 <div>
                   <h1>Note</h1>
-                  <ul>
-                    <li>Payment Terms: Due on receipt</li>
-                    <li>
-                      Make payments in favor of “New Wave Technologies Ltd”
-                      Bank: Bank of Africa Uganda Limited, Equatorial Branch,
-                    </li>
-                    <li>
-                      Account Number: 20207309001, Currency: UGX, Swift Code:
-                      AFRIUGKA
-                    </li>
-                    <li>All prices exclusive of VAT unless otherwise stated</li>
-                    <li>
-                      If you have any questions concerning this invoice,
-                      contact: Email: info@nwt.ug, Tel: 0414-389220
-                    </li>
-                  </ul>
+                  <p class="description">{{$data[0]["invoice_note"]}}</p>
+
                 </div>
               </td>
             </tr>
             <tr>
+
               <td colspan="4">
                 <center>Thank you for your business!</center>
               </td>
@@ -160,10 +160,7 @@ p {
           </table>
         </div>
       </div>
-      <div className="printbutton">
-        <button outline color="primary">
-          Print Invoice
-        </button>
-      </div>
+
+
 </body>
 </html>

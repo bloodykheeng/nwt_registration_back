@@ -3,6 +3,7 @@
 use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SendInvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,8 @@ Route::get('/', function () {
 Route::get("/testemail", function () {
     Mail::to("test@gmail.com")->send(new InvoiceMail);
 });
+
+// Route::get("/sendinvoice", [SendInvoiceController::class, "contact"]);
+// Route::get("/sendinvoicefromdb/{id}", [SendInvoiceController::class, "sendInvoice"]);
+
 require __DIR__ . '/auth.php';

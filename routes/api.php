@@ -9,6 +9,7 @@ use App\Http\Controllers\InvoiceAddressController;
 use App\Http\Controllers\ServiceStateController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SendInvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,3 +74,6 @@ Route::get("/servicestate/search/{client_id}", [ServiceStateController::class, "
 Route::Resource("/servicetype", ServiceTypeController::class);
 
 Route::get("/servicetype/search/{name}", [ServiceTypeController::class, "search"]);
+
+//the route that manages sending invoices maually
+Route::get("/sendinvoicefromdb/{id}", [SendInvoiceController::class, "sendInvoice"]);
