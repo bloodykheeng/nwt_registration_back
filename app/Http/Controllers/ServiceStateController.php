@@ -68,7 +68,7 @@ class ServiceStateController extends Controller
     {
         // return ServiceState::find($id);
 
-        $client_details = ServiceState::join("service_types", "service_types.id", "service_states.service_type_id")->join("client_details", "client_details.id", "service_states.client_id")->join("users", "service_states.registras_id", "users.id")->select("service_states.*", "service_types.service_name", "service_types.id as service_types_id", "client_details.client_name", "client_details.id as client_id", "users.name as registrars_name", "users.email as registrars_email")->where("users.id", $id)->get();
+        $client_details = ServiceState::join("service_types", "service_types.id", "service_states.service_type_id")->join("client_details", "client_details.id", "service_states.client_id")->join("users", "service_states.registras_id", "users.id")->select("service_states.*", "service_types.service_name", "service_types.id as service_types_id", "client_details.client_name", "client_details.id as client_id", "users.name as registrars_name", "users.email as registrars_email")->where("client_details.id", $id)->get();
 
         return response()->json($client_details);
     }

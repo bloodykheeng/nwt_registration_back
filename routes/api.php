@@ -32,48 +32,48 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 
 
-Route::get('/test2', function (Request $request) {
-    return "tesiting2 route accesed";
-});
+// Route::get('/test2', function (Request $request) {
+//     return "tesiting2 route accesed";
+// });
 Route::middleware('auth:sanctum')->group(
     function () {
 
         Route::get('/test', function (Request $request) {
             return "tesiting route accesed";
         });
+
+
+        Route::Resource('/client_details', ClientDetailsController::class);
+
+
+        //Administrator
+        Route::Resource("/admin", AdminController::class);
+
+        Route::get("/admin/search/{name}", [App\Http\Controllers\AdminController::class, "search"]);
+
+
+        //invoce address
+        Route::Resource("/invoiceaddress", InvoiceAddressController::class);
+
+        Route::get("/invoiceaddress/search/{name}", [App\Http\Controllers\InvoiceAddressController::class, "search"]);
+
+        //invoice
+        Route::Resource("/invoice", InvoiceController::class);
+
+        Route::get("/invoice/search/{name}", [InvoiceController::class, "search"]);
+
+        //service state
+        Route::Resource("/servicestate", ServiceStateController::class);
+
+        Route::get("/servicestate/search/{client_id}", [ServiceStateController::class, "search"]);
+
+
+        //service state type
+        Route::Resource("/servicetype", ServiceTypeController::class);
+
+        Route::get("/servicetype/search/{name}", [ServiceTypeController::class, "search"]);
+
+        //the route that manages sending invoices maually
+        Route::get("/sendinvoicefromdb/{id}", [SendInvoiceController::class, "sendInvoice"]);
     }
 );
-
-Route::Resource('/client_details', ClientDetailsController::class);
-
-
-
-//Administrator
-Route::Resource("/admin", AdminController::class);
-
-Route::get("/admin/search/{name}", [App\Http\Controllers\AdminController::class, "search"]);
-
-
-//invoce address
-Route::Resource("/invoiceaddress", InvoiceAddressController::class);
-
-Route::get("/invoiceaddress/search/{name}", [App\Http\Controllers\InvoiceAddressController::class, "search"]);
-
-//invoice
-Route::Resource("/invoice", InvoiceController::class);
-
-Route::get("/invoice/search/{name}", [InvoiceController::class, "search"]);
-
-//service state
-Route::Resource("/servicestate", ServiceStateController::class);
-
-Route::get("/servicestate/search/{client_id}", [ServiceStateController::class, "search"]);
-
-
-//service state type
-Route::Resource("/servicetype", ServiceTypeController::class);
-
-Route::get("/servicetype/search/{name}", [ServiceTypeController::class, "search"]);
-
-//the route that manages sending invoices maually
-Route::get("/sendinvoicefromdb/{id}", [SendInvoiceController::class, "sendInvoice"]);
